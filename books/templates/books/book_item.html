@@ -1,0 +1,33 @@
+{% extends 'books/base.html' %}
+
+{% block descr %}{{ new.descr }}{{ book.title }}{% endblock descr %}
+{% block keywords %}{{ new.keywords }}{{ book.title }}{% endblock keywords %}
+{% block title %}{{ new.title }}{{ book.title }}{% endblock title %}
+
+{% block content %}
+    <a href="{% url 'catalog' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Назад к каталогу</a><br><br>
+
+    <h1>{{ book.title }}</h1><hr>
+
+    <hr>
+
+    <p>{{ book.desc|safe }}</p>
+    {% if book.file %}
+        <a href="{{ book.file.url }}" download>Скачать книгу</a>
+    {% endif %}<hr>
+
+    <p>Категория - {{ book.type_id }}</p>
+    <p>Язык - {{ language }}</p>
+    <p>Год выпуска: {{ book.year }}</p>
+    <p>Колличество страниц: {{ book.pages }}</p>
+    <p>Автор(ы):
+        {% for author in book.author.all %}
+            {{ author.name }}
+        {% endfor %}
+    </p>
+    <p>Теги:
+        {% for tag in book.tags.all %}
+            {{ tag.title }}
+        {% endfor %}
+    </p>
+{% endblock content %}

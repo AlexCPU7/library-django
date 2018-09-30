@@ -1,0 +1,65 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="descr" content="{% block descr %}Python-django{% endblock descr %}">
+    <meta name="keywords" content="{% block keywords %}Python-django{% endblock keywords %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    <title>{% block title %}Python-django{% endblock title %}</title>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Python</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"
+                aria-controls="navbarsExample04" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse show" id="navbarsExample04" style="">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'catalog' %}" target="_blank">Книги</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/" target="_blank">Админка</a>
+                </li>
+            </ul>
+            <div class="navbar-nav mruto">
+                {% if not user.is_active %}
+                    <a class="nav-link" href="/accounts/login/">Войти</a>
+                    <span class="log-reg">/</span>
+                    <a class="nav-link" href="/accounts/signup/">Зарегистрироваться</a>
+                {% else %}
+                    <form method="post" action="/accounts/logout/">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="QpWgbPQ7iNc6uttM0iTJJ0xIDumuUt9SQ4ey3whJLDB20vWFW89pYNJpwdO4Zmec">
+                        {% csrf_token %}
+                        <button class="btn-log-reg nav-link" type="submit">{{ user }}(выйти)</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container container-castom">
+    {% block content %}
+
+    {% endblock content %}
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">...</span>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

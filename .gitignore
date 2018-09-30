@@ -1,0 +1,6 @@
+.idea
+*.pyc
+*.sqlite3
+venv
+/media/books/files/*
+/media/books/images/*
