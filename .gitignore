@@ -4,3 +4,4 @@
 venv
 /media/books/files/*
 /media/books/images/*
+/app/settings_server.py
