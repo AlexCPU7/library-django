@@ -1,0 +1,12 @@
+{% extends 'books/base.html' %}
+
+{% block descr %}Теги{% endblock descr %}
+{% block keywords %}Теги{% endblock keywords %}
+{% block title %}Теги{% endblock title %}
+
+{% block content %}
+    <h1>Все теги:</h1>
+    {% for tag in tags %}
+        {% include 'books/includes/small_tag' %}
+    {% endfor %}
+{% endblock %}

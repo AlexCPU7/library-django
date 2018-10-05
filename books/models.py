@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.shortcuts import reverse
 
 
 class Type(models.Model):
@@ -32,8 +33,12 @@ class Author(models.Model):
 
 class Tag(models.Model):
     title = models.CharField('Название', max_length=100)
+    slug = models.SlugField('ЧПУ', max_length=100, unique=True)
     create_dt = models.DateTimeField('Дата создания', auto_now_add=True)
     update_dt = models.DateTimeField('Дата изменения', auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('tag_item', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Тег'
@@ -77,9 +82,12 @@ class Book(models.Model):
         MinValueValidator(1800),
         MaxValueValidator(2150)
     ])
-    tags = models.ManyToManyField(Tag, verbose_name='Теги', blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name='Теги', blank=True, related_name='books')
     create_dt = models.DateTimeField('Дата создания', auto_now_add=True)
     update_dt = models.DateTimeField('Дата изменения', auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('book_item', kwargs={'pk': self.id})
 
     class Meta:
         verbose_name = 'Книга'
@@ -96,6 +104,7 @@ class Article(models.Model):
         (3, 'Заблокированно')
     }
     title = models.CharField('Название', max_length=100, db_index=True)
+    slug = models.SlugField('ЧПУ', max_length=150, unique=True)
     user = models.ForeignKey(User,
                              verbose_name='Пользователь',
                              on_delete=models.SET_NULL,
@@ -105,10 +114,9 @@ class Article(models.Model):
                                 on_delete=models.SET_NULL,
                                 null=True)
     status = models.PositiveSmallIntegerField('Статус', choices=array_status)
-    slug = models.SlugField('Слак', max_length=150, unique=True)
     desc = models.TextField('Описание', max_length=50000)
     link = models.CharField('Ссылка', max_length=400)
-    tags = models.ManyToManyField(Tag, verbose_name='Теги', blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name='Теги', blank=True, related_name='articles')
     create_dt = models.DateTimeField('Дата создания', auto_now_add=True)
     update_dt = models.DateTimeField('Дата изменения', auto_now=True)
 

@@ -1,0 +1,5 @@
+<a href="{{ tag.get_absolute_url }}">
+    <span class="badge badge-secondary">
+        {{ tag.title }}
+    </span>
+</a>

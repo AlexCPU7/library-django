@@ -5,7 +5,7 @@
 {% block title %}{{ new.title }}{{ book.title }}{% endblock title %}
 
 {% block content %}
-    <a href="{% url 'catalog' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Назад к каталогу</a><br><br>
+    <a href="{% url 'books_list' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Назад к каталогу</a><br><br>
 
     <h1>{{ book.title }}</h1><hr>
 
@@ -27,7 +27,7 @@
     </p>
     <p>Теги:
         {% for tag in book.tags.all %}
-            {{ tag.title }}
+            {% include 'books/includes/small_tag' %}
         {% endfor %}
     </p>
 {% endblock content %}

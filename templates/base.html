@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="descr" content="{% block descr %}Python-django{% endblock descr %}">
     <meta name="keywords" content="{% block keywords %}Python-django{% endblock keywords %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{% static 'modules/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     <title>{% block title %}Python-django{% endblock title %}</title>
 </head>
@@ -22,11 +22,16 @@
         <div class="navbar-collapse collapse show" id="navbarsExample04" style="">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'catalog' %}" target="_blank">Книги</a>
+                    <a class="nav-link" href="{% url 'books_list' %}">Книги</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/" target="_blank">Админка</a>
+                    <a class="nav-link" href="{% url 'tags_list' %}">Теги</a>
                 </li>
+                {% if user.id == 1 %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/" target="_blank">Админка</a>
+                    </li>
+                {% endif %}
             </ul>
             <div class="navbar-nav mruto">
                 {% if not user.is_active %}
@@ -57,9 +62,9 @@
     </div>
 </footer>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{% static 'modules/bootstrap/js/jquery-3.2.1.slim.min.js' %}"></script>
+<script src="{% static 'modules/bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'modules/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
