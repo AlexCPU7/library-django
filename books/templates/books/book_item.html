@@ -5,9 +5,10 @@
 {% block title %}{{ new.title }}{{ book.title }}{% endblock title %}
 
 {% block content %}
-    <a href="{% url 'books_list' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Назад к каталогу</a><br><br>
-
-    <h1>{{ book.title }}</h1><hr>
+    <h1>{{ book.title }}</h1>
+    <div class="link-back">
+        <a class="btn btn-primary" href="{% url 'books_list' %}">Назад в каталог</a>
+    </div>
 
     <hr>
 

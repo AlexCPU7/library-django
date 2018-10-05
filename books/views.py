@@ -1,30 +1,35 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import View
+
 from .models import Book, Tag
+from .utils import ObjectItemMixin
 
 
-def book_catalog(request):
-    books = Book.objects.filter(status=1)
-    return render(request, 'books/books_list.html', {
-        'books': books,
-    })
+class BookCatalog(View):
+    def get(self, request):
+        books = Book.objects.filter(status=1)
+        return render(request, 'books/books_list.html', {
+            'books': books,
+        })
 
 
-def book_item(request, pk):
-    book = get_object_or_404(Book, id=pk)
-    return render(request, 'books/book_item.html', {
-        'book': book,
-    })
+class BookItem(View):
+    def get(self, request, pk):
+        book = get_object_or_404(Book, id=pk)
+        return render(request, 'books/book_item.html', {
+            'book': book,
+        })
 
 
-def tags_list(request):
-    tags = Tag.objects.all()
-    return render(request, 'books/tags_list.html', {
-        'tags': tags
-    })
+class TagsList(View):
+    def get(self, request):
+        tags = Tag.objects.all()
+        return render(request, 'books/tags_list.html', {
+            'tags': tags
+        })
 
 
-def tag_item(request, slug):
-    tag = Tag.objects.get(slug__iexact=slug)
-    return render(request, 'books/tag_item.html', {
-        'tag': tag
-    })
+class TagItem(ObjectItemMixin, View):
+    model = Tag
+    template = 'books/tag_item.html'
+
