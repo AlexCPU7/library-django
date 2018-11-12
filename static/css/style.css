@@ -83,3 +83,10 @@ input, select, select, textarea{
     border-color: rgba(0,0,0,.125);
 }
 
+.custom-textarea{
+    width: 100%;
+}
+
+.django-ckeditor-widget {
+    padding: 0;
+}

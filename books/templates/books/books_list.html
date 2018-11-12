@@ -7,7 +7,7 @@
 {% block content %}
     <h1>Каталог книг</h1>
     <div class="link-back">
-        <a class="btn btn-primary" href="/catalog/add_book/">Добавить новую книгу</a>
+        <a class="btn btn-primary" href="{% url 'create_book_url' %}">Добавить новую книгу</a>
     </div>
     <div class="row">
         {% if books %}

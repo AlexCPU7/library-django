@@ -1,8 +1,13 @@
+import os
+
 from django.db import models
 from django.contrib.auth.models import User
-from ckeditor.fields import RichTextField
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.shortcuts import reverse
+from django.core.validators import (MaxValueValidator,
+                                    MinValueValidator,
+                                    ValidationError)
+
+from ckeditor.fields import RichTextField
 
 
 class Type(models.Model):
@@ -48,6 +53,13 @@ class Tag(models.Model):
         return self.title
 
 
+def validate_image(self):
+    valid_format = ('.dox',)
+    ext = os.path.splitext(self.image)[1]
+    if not ext.lower() in valid_format:
+        raise ValidationError(u'Unsupported file extension.')
+
+
 class Book(models.Model):
     array_language = {
         (1, 'Русский'),
@@ -67,7 +79,7 @@ class Book(models.Model):
                                 verbose_name='Тип литературы',
                                 on_delete=models.SET_NULL,
                                 null=True)
-    status = models.PositiveSmallIntegerField('Статус', choices=array_status)
+    status = models.PositiveSmallIntegerField('Статус', choices=array_status, default=2)
     author = models.ManyToManyField(Author, verbose_name='Автор', blank=True)
     image = models.ImageField('Изображение', upload_to='books/images', blank=True)
     file = models.FileField('Файл', upload_to='books/files')

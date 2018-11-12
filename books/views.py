@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import View
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import View, TemplateView, CreateView
 
 from .models import Book, Tag
 from .utils import ObjectItemMixin
+from .forms import CreateBookForm
 
 
 class BookCatalog(View):
@@ -15,7 +16,7 @@ class BookCatalog(View):
 
 class BookItem(View):
     def get(self, request, pk):
-        book = get_object_or_404(Book, id=pk)
+        book = get_object_or_404(Book, id=pk, status=1)
         return render(request, 'books/book_item.html', {
             'book': book,
         })
@@ -27,6 +28,45 @@ class TagsList(View):
         return render(request, 'books/tags_list.html', {
             'tags': tags
         })
+
+
+class CreateBookTest(TemplateView):
+    template_name = 'books/create_book.html'
+
+    def post(self, request, *args, **kwargs):
+        form = CreateBookForm(self.request.POST)
+        #form.instance.user = self.request.user
+        t = form.is_valid()
+        if form.is_valid():
+            post = form.save()
+            url = post.get_url()
+            return render(url)
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateBookTest, self).get_context_data(**kwargs)
+        context['title'] = 'Добавить Книгу'
+        context['form'] = CreateBookForm()
+        return context
+
+
+class CreateBook(CreateView):
+    model = Book
+    form_class = CreateBookForm
+    template_name = 'books/create_book.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateBook, self).get_context_data(**kwargs)
+        context['title'] = 'Добавить самосвал'
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        post = form.save()
+        return redirect('book_item', pk=post.id)
+
+
+class BookUser(TemplateView):
+    pass
 
 
 class TagItem(ObjectItemMixin, View):
