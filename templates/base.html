@@ -25,6 +25,9 @@
                     <a class="nav-link" href="{% url 'books_list' %}">Книги</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_book_url' %}">Мои книги</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'tags_list' %}">Теги</a>
                 </li>
                 {% if user.id == 1 %}

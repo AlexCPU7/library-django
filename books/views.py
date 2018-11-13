@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, TemplateView, CreateView
+from django.views.generic.list import ListView
+from django.db.models import Q
 
 from .models import Book, Tag
 from .utils import ObjectItemMixin
@@ -16,7 +18,7 @@ class BookCatalog(View):
 
 class BookItem(View):
     def get(self, request, pk):
-        book = get_object_or_404(Book, id=pk, status=1)
+        book = get_object_or_404(Book, id=pk)
         return render(request, 'books/book_item.html', {
             'book': book,
         })
@@ -65,8 +67,23 @@ class CreateBook(CreateView):
         return redirect('book_item', pk=post.id)
 
 
-class BookUser(TemplateView):
-    pass
+class MyBook(ListView):
+    template_name = 'books/my_book.html'
+    context_object_name = 'books'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Мои книги'
+        return context
+
+    def get_queryset(self):
+        try:
+            if self.request.GET:
+                return Book.objects.filter(user=self.request.user,
+                                           model=self.request.GET['model'])
+        except ValueError:
+            pass
+        return Book.objects.filter(user=self.request.user)
 
 
 class TagItem(ObjectItemMixin, View):
