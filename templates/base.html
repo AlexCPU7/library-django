@@ -39,7 +39,7 @@
                     <span class="log-reg">/</span>
                     <a class="nav-link" href="{% url 'registration_url' %}">Зарегистрироваться</a>
                 {% else %}
-                    <form method="post" action="{% url 'logout_url' %}">
+                    <form method="post" action="">
                         <input type="hidden" name="csrfmiddlewaretoken" value="QpWgbPQ7iNc6uttM0iTJJ0xIDumuUt9SQ4ey3whJLDB20vWFW89pYNJpwdO4Zmec">
                         {% csrf_token %}
                         <button class="btn-log-reg nav-link" type="submit">{{ user }}(выйти)</button>
