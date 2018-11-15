@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, TemplateView, CreateView
 from django.views.generic.list import ListView
 from django.db.models import Q
+from django.http import HttpResponse, HttpResponseNotFound
+from django.contrib.auth.models import User
 
 from .models import Book, Tag
 from .utils import ObjectItemMixin
@@ -71,7 +73,9 @@ class MyBook(ListView):
     template_name = 'books/my_book.html'
     context_object_name = 'books'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, request, **kwargs):
+        if False:
+            return HttpResponse('404')
         context = super().get_context_data(**kwargs)
         context['title'] = 'Мои книги'
         return context

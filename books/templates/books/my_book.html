@@ -8,19 +8,25 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Название</th>
+                <th scope="col">Тип литературы</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Язык</th>
+                <th scope="col">Колличество страниц</th>
+                <th scope="col">Год выпуска</th>
+                <th scope="col">Сслыка</th>
             </tr>
         </thead>
         <tbody>
             {% for book in books %}
                 <tr>
-                    <th scope="row"><a href="{% url 'book_item' book.id %}">check</a></th>
                     <td>{{ book.title }}</td>
-                    <td>{{ book.status }}</td>
-                    <td>{{ book.status }}</td>
+                    <td>{{ book.type_id }}</td>
+                    <td>{{ book.get_status_book }}</td>
+                    <td>{{ book.language }}</td>
+                    <td>{{ book.pages }}</td>
+                    <td>{{ book.year }}</td>
+                    <th scope="row"><a href="{% url 'book_item' book.id %}">check</a></th>
                 </tr>
             {% endfor %}
         </tbody>

@@ -6,7 +6,6 @@ from django.shortcuts import reverse
 from django.core.validators import (MaxValueValidator,
                                     MinValueValidator,
                                     ValidationError)
-
 from ckeditor.fields import RichTextField
 
 
@@ -100,6 +99,12 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse('book_item', kwargs={'pk': self.id})
+
+    def get_status_book(self):
+        for item in self.array_status:
+            if item[0] == self.status:
+                return item[1]
+        return '-'
 
     class Meta:
         verbose_name = 'Книга'

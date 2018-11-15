@@ -37,12 +37,12 @@
                 {% endif %}
             </ul>
             <div class="navbar-nav mruto">
-                {% if not user.is_active %}
-                    <a class="nav-link" href="/accounts/login/">Войти</a>
+                {% if not user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'login_url' %}">Войти</a>
                     <span class="log-reg">/</span>
-                    <a class="nav-link" href="/accounts/signup/">Зарегистрироваться</a>
+                    <a class="nav-link" href="{% url 'registration_url' %}">Зарегистрироваться</a>
                 {% else %}
-                    <form method="post" action="/accounts/logout/">
+                    <form method="post" action="{% url 'logout_url' %}">
                         <input type="hidden" name="csrfmiddlewaretoken" value="QpWgbPQ7iNc6uttM0iTJJ0xIDumuUt9SQ4ey3whJLDB20vWFW89pYNJpwdO4Zmec">
                         {% csrf_token %}
                         <button class="btn-log-reg nav-link" type="submit">{{ user }}(выйти)</button>
