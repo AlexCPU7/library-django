@@ -46,7 +46,7 @@ class CreateBook(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateBook, self).get_context_data(**kwargs)
-        context['title'] = 'Добавить самосвал'
+        context['title'] = 'Добавить книгу'
         return context
 
     def form_valid(self, form):
@@ -71,8 +71,6 @@ class MyBook(ListView):
         return context
 
     def get_queryset(self):
-        if not self.request.user.is_authenticated:
-            return redirect('/404')
         try:
             if self.request.GET:
                 return Book.objects.filter(user=self.request.user,
