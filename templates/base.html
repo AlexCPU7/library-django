@@ -24,6 +24,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'books_list' %}">Книги</a>
                 </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'my_book_url' %}">Мои книги</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'tags_list' %}">Теги</a>
                 </li>
@@ -39,11 +44,7 @@
                     <span class="log-reg">/</span>
                     <a class="nav-link" href="{% url 'registration_url' %}">Зарегистрироваться</a>
                 {% else %}
-                    <form method="post" action="">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="QpWgbPQ7iNc6uttM0iTJJ0xIDumuUt9SQ4ey3whJLDB20vWFW89pYNJpwdO4Zmec">
-                        {% csrf_token %}
-                        <button class="btn-log-reg nav-link" type="submit">{{ user }}(выйти)</button>
-                    </form>
+                    <a class="btn btn-log-reg nav-link" href="{% url 'logout_url' %}" type="submit">{{ user }}(выйти)</a>
                 {% endif %}
             </div>
         </div>

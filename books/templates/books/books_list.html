@@ -7,7 +7,13 @@
 {% block content %}
     <h1>Каталог книг</h1>
     <div class="link-back">
-        <a class="btn btn-primary" href="{% url 'create_book_url' %}">Добавить новую книгу</a>
+        {% if request.user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'create_book_url' %}">Добавить новую книгу</a>
+        {% else %}
+            <small class="form-text text-muted">Добавить книгу может только зарегистрированный
+                пользователь
+            </small>
+        {% endif %}
     </div>
     <div class="row">
         {% if books %}
@@ -15,9 +21,5 @@
                 {% include 'books/includes/item.html' %}
             {% endfor %} <br><br>
         {% endif %}
-    </div>
-    <div class="example">
-        <button class="note" data-toggle="collapse" data-target="#hide-me" aria-expanded="true">Collapse Bootstrap.js</button>
-        <div id="hide-me" class="note-bot collapse" aria-expanded="true" style="">Анонимус — посетители анонимных борд, которые почти все являются анонимами.</div>
     </div>
 {% endblock content %}

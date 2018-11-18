@@ -22,3 +22,5 @@ class CreateBookForm(forms.ModelForm):
             'year': forms.NumberInput(attrs={'class': 'col-xl-12'}),
             'tags': forms.SelectMultiple(attrs={'class': 'col-xl-12'}),
         }
+
+

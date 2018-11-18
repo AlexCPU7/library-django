@@ -34,29 +34,16 @@ class TagsList(View):
         })
 
 
-class CreateBookTest(TemplateView):
-    template_name = 'books/create_book.html'
-
-    def post(self, request, *args, **kwargs):
-        form = CreateBookForm(self.request.POST)
-        #form.instance.user = self.request.user
-        t = form.is_valid()
-        if form.is_valid():
-            post = form.save()
-            url = post.get_url()
-            return render(url)
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateBookTest, self).get_context_data(**kwargs)
-        context['title'] = 'Добавить Книгу'
-        context['form'] = CreateBookForm()
-        return context
-
-
 class CreateBook(CreateView):
     model = Book
     form_class = CreateBookForm
     template_name = 'books/create_book.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return render(request, self.template_name)
+        else:
+            return redirect('books_list')
 
     def get_context_data(self, **kwargs):
         context = super(CreateBook, self).get_context_data(**kwargs)
@@ -73,14 +60,20 @@ class MyBook(ListView):
     template_name = 'books/my_book.html'
     context_object_name = 'books'
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return render(request, self.template_name)
+        else:
+            return redirect('books_list')
+
     def get_context_data(self, request, **kwargs):
-        if False:
-            return HttpResponse('404')
         context = super().get_context_data(**kwargs)
         context['title'] = 'Мои книги'
         return context
 
     def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return redirect('/404')
         try:
             if self.request.GET:
                 return Book.objects.filter(user=self.request.user,

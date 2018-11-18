@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic import FormView
+from django.contrib.auth import (login,
+                                 logout)
+from django.contrib.auth.forms import (UserCreationForm,
+                                       AuthenticationForm)
 from django.contrib.auth.models import User
 
 from django.views.generic import View
@@ -8,16 +13,41 @@ def index(request):
     return render(request, 'info/index.html', {'title': 'Информация'})
 
 
-class Registration(View):
-    def get(self, request):
-        return render(request, 'info/registration.html', {'title': 'Войти'})
+class Registration(FormView):
+    template_name = 'info/registration.html'
+    success_url = '/login/'
+    form_class = UserCreationForm
+
+    def form_valid(self, form):
+        form.save()
+        return super(Registration, self).form_valid(form)
+
+    def form_invalid(self, form):
+        return super(Registration, self).form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(Registration, self).get_context_data(**kwargs)
+        context['title'] = 'Регистрация'
+        return context
 
 
-class Login(View):
-    def get(self, request):
-        return render(request, 'info/login.html', {'title': 'Войти'})
+class Login(FormView):
+    template_name = 'info/login.html'
+    success_url = 'books_list'
+    form_class = AuthenticationForm
+
+    def form_valid(self, form):
+        self.user = form.get_user()
+        login(self.request, self.user)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Войти'
+        return context
 
 
 class Logout(View):
     def get(self, request):
-        return render(request, 'info/logout.html', {'title': 'Выйти'})
+        logout(request)
+        return redirect('login_url')
