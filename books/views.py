@@ -40,10 +40,9 @@ class CreateBook(CreateView):
     template_name = 'books/create_book.html'
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return render(request, self.template_name)
-        else:
+        if not request.user.is_authenticated:
             return redirect('books_list')
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(CreateBook, self).get_context_data(**kwargs)

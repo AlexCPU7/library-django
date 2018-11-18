@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 from ckeditor.fields import RichTextField
 
@@ -22,5 +24,3 @@ class CreateBookForm(forms.ModelForm):
             'year': forms.NumberInput(attrs={'class': 'col-xl-12'}),
             'tags': forms.SelectMultiple(attrs={'class': 'col-xl-12'}),
         }
-
-

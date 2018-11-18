@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
+from django.views.generic import View
 from django.contrib.auth import (login,
                                  logout)
 from django.contrib.auth.forms import (UserCreationForm,
                                        AuthenticationForm)
-from django.contrib.auth.models import User
 
-from django.views.generic import View
+from .forms import UserCreateForm
 
 
 def index(request):
@@ -16,7 +16,7 @@ def index(request):
 class Registration(FormView):
     template_name = 'info/registration.html'
     success_url = '/login/'
-    form_class = UserCreationForm
+    form_class = UserCreateForm
 
     def form_valid(self, form):
         form.save()
@@ -33,7 +33,7 @@ class Registration(FormView):
 
 class Login(FormView):
     template_name = 'info/login.html'
-    success_url = 'books_list'
+    success_url = '/catalog'
     form_class = AuthenticationForm
 
     def form_valid(self, form):
