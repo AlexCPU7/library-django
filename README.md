@@ -2,6 +2,11 @@ Link: http://138.197.107.116
 
 ## Installation
 
+create directory media
+```bash
+mkdir media
+```
+
 Create a virtual environment
 ```bash
 python -m venv env
@@ -16,16 +21,12 @@ Install all packages
 ```bash
 pip install -r requirements.txt
 ```
-
-Create superuser
-```bash
-python manage.py createsuperuser
-```
-
 Apply migration
 ```bash
 python manage.py migrate
 ```
 
-
-
+Create superuser
+```bash
+python manage.py createsuperuser
+```
