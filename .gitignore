@@ -9,3 +9,5 @@ env
 /media/books/files/*
 /media/books/images/*
 /app/settings_server.py
+
+/docker/logs/*
