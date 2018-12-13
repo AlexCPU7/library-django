@@ -11,3 +11,4 @@ env
 /app/settings_server.py
 
 /docker/logs/*
+app/conf.py

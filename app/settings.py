@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from app import conf
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,8 +25,7 @@ SECRET_KEY = '*wi%qm+_d(6-dxu$m8=w69ypd@$#0yl$&rdcldm$9c_kj*)+gr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = conf.ALLOWED_HOSTS
 
 
 # Application definition
@@ -83,8 +83,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': conf.POSTGRESQL_NAME,
+        'USER': conf.POSTGRESQL_USER,
+        'PASSWORD': conf.POSTGRESQL_PASSWORD,
+        'HOST': conf.POSTGRESQL_HOST,
+        'PORT': conf.POSTGRESQL_PORT,
     }
 }
 
@@ -132,8 +136,3 @@ STATICFILES_DIRS = [STATIC_DIR]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-try:
-    from .settings_server import *
-except:
-    pass
