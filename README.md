@@ -30,3 +30,11 @@ Create superuser
 ```bash
 python manage.py createsuperuser
 ```
+
+## Docker
+```bash
+git clone 
+mkdir media AND docker/logs
+add app/conf.py
+docker
+```
