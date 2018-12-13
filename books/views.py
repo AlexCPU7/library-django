@@ -20,7 +20,8 @@ class BookCatalog(View):
 
 class BookItem(View):
     def get(self, request, pk):
-        book = get_object_or_404(Book, id=pk)
+        book = get_object_or_404(Book, (Q(id=pk, user=1) | Q(id=pk, status=1)))
+        # (user=user_id) OR (status = 1)
         return render(request, 'books/book_item.html', {
             'book': book,
         })
@@ -55,29 +56,16 @@ class CreateBook(CreateView):
         return redirect('book_item', pk=post.id)
 
 
-class MyBook(ListView):
+class MyBook(View):
     template_name = 'books/my_book.html'
-    context_object_name = 'books'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return render(request, self.template_name)
+            books = Book.objects.filter(user=self.request.user)
+            return render(request, self.template_name, {'books': books,
+                                                        'title': 'Мои книги'})
         else:
             return redirect('books_list')
-
-    def get_context_data(self, request, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Мои книги'
-        return context
-
-    def get_queryset(self):
-        try:
-            if self.request.GET:
-                return Book.objects.filter(user=self.request.user,
-                                           model=self.request.GET['model'])
-        except ValueError:
-            pass
-        return Book.objects.filter(user=self.request.user)
 
 
 class TagItem(ObjectItemMixin, View):
