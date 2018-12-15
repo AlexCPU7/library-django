@@ -20,7 +20,7 @@ class BookCatalog(View):
 
 class BookItem(View):
     def get(self, request, pk):
-        book = get_object_or_404(Book, (Q(id=pk, user=1) | Q(id=pk, status=1)))
+        book = get_object_or_404(Book, (Q(id=pk, user=request.user.id) | Q(id=pk, status=1)))
         # (user=user_id) OR (status = 1)
         return render(request, 'books/book_item.html', {
             'book': book,
