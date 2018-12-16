@@ -1,9 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, TemplateView, CreateView
-from django.views.generic.list import ListView
+from django.views.generic import View, CreateView
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseNotFound
-from django.contrib.auth.models import User
 
 from .models import Book, Tag
 from .utils import ObjectItemMixin
@@ -12,7 +9,7 @@ from .forms import CreateBookForm
 
 class BookCatalog(View):
     def get(self, request):
-        books = Book.objects.filter(status=1)
+        books = Book.objects.filter(status=1).order_by('-year')
         return render(request, 'books/books_list.html', {
             'books': books,
         })

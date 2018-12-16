@@ -3,8 +3,7 @@ from django.views.generic import FormView
 from django.views.generic import View
 from django.contrib.auth import (login,
                                  logout)
-from django.contrib.auth.forms import (UserCreationForm,
-                                       AuthenticationForm)
+from django.contrib.auth.forms import AuthenticationForm
 
 from .forms import UserCreateForm
 
