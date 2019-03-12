@@ -8,31 +8,7 @@ from django.core.validators import (MaxValueValidator,
                                     ValidationError)
 from ckeditor.fields import RichTextField
 
-
-class Type(models.Model):
-    title = models.CharField('Название', max_length=100)
-    create_dt = models.DateTimeField('Дата создания', auto_now_add=True)
-    update_dt = models.DateTimeField('Дата изменения', auto_now=True)
-
-    class Meta:
-        verbose_name = 'Тип книги'
-        verbose_name_plural = 'Типы книг'
-
-    def __str__(self):
-        return self.title
-
-
-class Author(models.Model):
-    name = models.CharField('ФИО автора', max_length=150)
-    create_dt = models.DateTimeField('Дата создания', auto_now_add=True)
-    update_dt = models.DateTimeField('Дата изменения', auto_now=True)
-
-    class Meta:
-        verbose_name = 'Автор'
-        verbose_name_plural = 'Авторы'
-
-    def __str__(self):
-        return self.name
+from books.models.author import Author
 
 
 class Tag(models.Model):
@@ -52,11 +28,17 @@ class Tag(models.Model):
         return self.title
 
 
-def validate_image(self):
-    valid_format = ('.dox',)
-    ext = os.path.splitext(self.image)[1]
-    if not ext.lower() in valid_format:
-        raise ValidationError(u'Unsupported file extension.')
+class Type(models.Model):
+    title = models.CharField('Название', max_length=100)
+    create_dt = models.DateTimeField('Дата создания', auto_now_add=True)
+    update_dt = models.DateTimeField('Дата изменения', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Тип книги'
+        verbose_name_plural = 'Типы книг'
+
+    def __str__(self):
+        return self.title
 
 
 class Book(models.Model):
@@ -112,6 +94,13 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+def validate_image(self):
+    valid_format = ('.dox',)
+    ext = os.path.splitext(self.image)[1]
+    if not ext.lower() in valid_format:
+        raise ValidationError(u'Unsupported file extension.')
 
 
 class Article(models.Model):

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, CreateView
 from django.db.models import Q
 
-from .models import Book, Tag
+from .models.book import Book, Tag
 from .utils import ObjectItemMixin
 from .forms import CreateBookForm
 
